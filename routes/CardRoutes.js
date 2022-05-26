@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getDb } from "../db/connect.js";
+import logger from "../logger.js";
 
 const CardRouter = Router();
 
@@ -19,9 +20,11 @@ CardRouter.route("/api/create-card").post(async (req, res) => {
     .collection("board-list")
     .updateOne(query, newDocument, (err, result) => {
       if (err) {
-        res.status(400).send("Error fetching listings!");
+        res.status(400).send("Error fetching create card!");
+        logger.info("Error fetching create card!");
       } else {
         res.send(result);
+        logger.info("Success fetching create card!");
       }
     });
 });
@@ -48,9 +51,11 @@ CardRouter.route("/api/change-card-title").put(async (req, res) => {
     .collection("board-list")
     .updateOne(query, newDocument, filtered, (err, result) => {
       if (err) {
-        res.status(400).send("Error fetching listings!");
+        res.status(400).send("Error fetching change card title!");
+        logger.info("Error fetching change card title!");
       } else {
         res.send(result);
+        logger.info("Success fetching change card title!");
       }
     });
 });
@@ -77,9 +82,11 @@ CardRouter.route("/api/change-card-descr").put(async (req, res) => {
     .collection("board-list")
     .updateOne(query, newDocument, filtered, (err, result) => {
       if (err) {
-        res.status(400).send("Error fetching listings!");
+        res.status(400).send("Error fetching change card description!");
+        logger.info("Error fetching change card description!");
       } else {
         res.send(result);
+        logger.info("Success fetching change card description!");
       }
     });
 });

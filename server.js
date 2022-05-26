@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { connectToServer } from "./db/connect.js";
+import logger from "./logger.js";
 import BoardRouter from "./routes/BoardRoutes.js";
 import ListRouter from "./routes/ListRoutes.js";
 import CardRouter from "./routes/CardRoutes.js";
@@ -17,17 +18,12 @@ app.use(ListRouter);
 app.use(CardRouter);
 app.use(ActionRouter);
 
-app.use(function (err, _req, res) {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
-});
-
 connectToServer((err) => {
   if (err) {
     console.error(err);
     process.exit();
   }
   app.listen(PORT, () => {
-    console.log(`Server is running on port: ${PORT}`);
+    logger.info(`Server is running on port: ${PORT}`);
   });
 });

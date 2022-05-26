@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getDb } from "../db/connect.js";
+import logger from "../logger.js";
 
 const ListRouter = Router();
 
@@ -12,9 +13,11 @@ ListRouter.route("/api/get-lists=?:boardId").get(async (req, res) => {
       (list) => list.boardId === boardId
     );
     if (err) {
-      res.status(400).send("Error fetching listings!");
+      res.status(400).send("Error fetching lists!");
+      logger.info(`Error fetching lists error - BoardID - ${boardId} `);
     } else {
-      res.send(currentLists);
+      res.status(200).send(currentLists);
+      logger.info(`Success fetching lists BoardID - ${boardId}`);
     }
   });
 });
@@ -30,9 +33,11 @@ ListRouter.route("/api/create-list").post(async (req, res) => {
     .collection("board-list")
     .updateOne(query, newDocument, (err, result) => {
       if (err) {
-        res.status(400).send("Error fetching listings!");
+        res.status(400).send("Error fetching create list!");
+        logger.info("Error fetching create list!");
       } else {
-        res.send(result);
+        res.status(204).send();
+        logger.info("Success fetching create list!");
       }
     });
 });
@@ -48,9 +53,11 @@ ListRouter.route("/api/delete-list").delete(async (req, res) => {
     .collection("board-list")
     .updateOne(query, newDocument, (err, result) => {
       if (err) {
-        res.status(400).send("Error fetching listings!");
+        res.status(400).send("Error delete list!");
+        logger.info("Error fetching delete list!");
       } else {
         res.send(result);
+        logger.info("Success fetching delete list!");
       }
     });
 });
@@ -73,9 +80,11 @@ ListRouter.route("/api/change-list-title").put(async (req, res) => {
     .collection("board-list")
     .updateOne(query, newDocument, (err, result) => {
       if (err) {
-        res.status(400).send("Error fetching listings!");
+        res.status(400).send("Error change-list-title!");
+        logger.info("Error fetching change-list-title!");
       } else {
         res.send(result);
+        logger.info("Success fetching change-list-title!");
       }
     });
 });
@@ -103,9 +112,11 @@ ListRouter.route("/api/update-lists").put(async (req, res) => {
       .collection("board-list")
       .updateOne(query, updateDocument, (err, result) => {
         if (err) {
-          res.status(400).send("Error fetching listings!");
+          res.status(400).send("Error fetching update-lists!");
+          logger.info("Error fetching update-lists!");
         } else {
           res.send(result);
+          logger.info("Success fetching update-lists!");
         }
       });
   } catch (error) {

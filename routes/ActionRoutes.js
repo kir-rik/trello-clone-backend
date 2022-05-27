@@ -14,7 +14,7 @@ ActionRouter.route("/api/get-action-list=?:cardId").get(async (req, res) => {
     );
     if (err) {
       res.status(400).send("Error fetching get actions list!");
-      logger.info("Error fetching get actions list!");
+      logger.error(JSON.stringify(err))
     } else {
       res.send(currentActionList);
       logger.info("Success fetching get actions list!");
